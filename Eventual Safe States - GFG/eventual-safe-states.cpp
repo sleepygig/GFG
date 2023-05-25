@@ -11,21 +11,21 @@ using namespace std;
 class Solution {
   public:
    vector<int> eventualSafeNodes(int V, vector<int> adj[]) {
-            int inde[V];
+            int outde[V];
             vector<int> adjrev[V];
-            memset(inde,0,sizeof(inde));
+            memset(outde,0,sizeof(outde));
              for(int i=0;i<V;i++)
              {
                for(auto c:adj[i])
                {
-                    inde[i]++;
+                    outde[i]++;
                     adjrev[c].push_back(i);
                }  
              }
              queue<int>q;
              for(int i=0;i<V;i++)
              {
-                    if(inde[i]==0)
+                    if(outde[i]==0)
                     {
                         q.push(i);
                     }
@@ -38,8 +38,8 @@ class Solution {
                 q.pop();
                 for(auto c:adjrev[tp])
                 {
-                    inde[c]--;
-                    if(inde[c]==0) q.push(c);
+                    outde[c]--;
+                    if(outde[c]==0) q.push(c);
                 }
              }
              sort(v.begin(),v.end());
