@@ -10,42 +10,41 @@ using namespace std;
 
 class Solution {
   public:
- bool toposort(vector<int>adj[],int vis[],int &src,int path[])
-    {
-        vis[src]=1;
-        path[src]=1;
-        for(auto c:adj[src])
-        {
-            if(!vis[c])
-            {
-               if(toposort(adj,vis,c,path)) return true;
-            }
-            else if (path[c]) return true;   //cyle hai mil gya  // path abhi bhi set bit hai mtlb ghum 
-                                            // ke aya wapas whi 
-        }
-        path[src]=0;
-        return false;
-    }
- 	     vector<int> eventualSafeNodes(int V, vector<int> adj[]) {
-            int vis[V];
-            memset(vis,0,sizeof(vis));
-             int path[V];
-            memset(path,0,sizeof(path));
-        for(int i=0;i<V;i++)
-        {
-            if(vis[i]==0)
-            {toposort(adj,vis,i,path);}    
-        }
-        vector<int >v;
-        for(int i=0;i<V;i++)
-        {
-            if(path[i]==0)
-            {
-                v.push_back(i);
-            }
-        }
-        return v;
-    }
+   vector<int> eventualSafeNodes(int V, vector<int> adj[]) {
+            int inde[V];
+            vector<int> adjrev[V];
+            memset(inde,0,sizeof(inde));
+             for(int i=0;i<V;i++)
+             {
+               for(auto c:adj[i])
+               {
+                    inde[i]++;
+                    adjrev[c].push_back(i);
+               }  
+             }
+             queue<int>q;
+             for(int i=0;i<V;i++)
+             {
+                    if(inde[i]==0)
+                    {
+                        q.push(i);
+                    }
+             }
+             vector<int>v;
+             while(q.size()>0)
+             {
+                int tp=q.front();
+                v.push_back(tp);
+                q.pop();
+                for(auto c:adjrev[tp])
+                {
+                    inde[c]--;
+                    if(inde[c]==0) q.push(c);
+                }
+             }
+             sort(v.begin(),v.end());
+            return v;
+         } 
 };
 
 
