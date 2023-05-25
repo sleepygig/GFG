@@ -18,8 +18,9 @@ class Solution{
             if (!vis[c])
             {
             if(dfs(adj,c,path,vis,s)==true) return true;   // cycle mil gya
+            
+             if (path[c]) return true; 
             }
-            else if (path[c]) return true; 
         }
         s.push(src);
         path[src]=0; // unsetting the path kyuki is call is exit le rha
