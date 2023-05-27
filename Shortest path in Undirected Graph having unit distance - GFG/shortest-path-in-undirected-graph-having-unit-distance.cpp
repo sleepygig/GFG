@@ -12,7 +12,7 @@ class Solution {
         vector<int>dis(N,1e9);
         dis[src]=0;
         vector<int> adj[N];
-        queue<pair<int,int>>q;
+        queue<int>q;
         int vis[N];
         memset(vis,0,sizeof(vis));
         for(int i=0;i<M;i++)
@@ -33,18 +33,18 @@ class Solution {
         // }
 
 
-        q.push({src,0});
+        q.push({src});
         while(q.size()>0)
         {
-            int node=q.front().first;   //node 
-            int wght=q.front().second;   //wght
+            int node=q.front();   //node 
+            // int wght=q.front().second;   //wght
             q.pop();
             for(auto c:adj[node])
             {
                 if(dis[c]>dis[node]+1)
                 {
                     dis[c]=dis[node]+1;
-                    q.push({c,dis[c]});
+                    q.push(c);
                 }
             }
         }
