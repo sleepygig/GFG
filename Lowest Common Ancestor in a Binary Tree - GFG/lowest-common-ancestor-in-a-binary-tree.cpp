@@ -38,21 +38,16 @@ class Solution
 {
     public:
     //Function to return the lowest common ancestor in a Binary Tree.
- Node* lca(Node* root ,int n1 ,int n2 )
+    Node* lca(Node* root ,int n1 ,int n2 )
     {
-      if (!root) return NULL;
-   if (root->data == n1 || root->data == n2) return root;
-
-   Node* leftLCA = lca(root->left, n1, n2);
-   Node* rightLCA = lca(root->right, n1, n2);
-
-   if (leftLCA && rightLCA) return root;  // LCA found, one node in left subtree and the other in the right subtree
-   if (leftLCA) return leftLCA;  // LCA found in the left subtree
-   if (rightLCA) return rightLCA;  // LCA found in the right subtree
-
-   return NULL;   
+        if(!root) return NULL;
+      if(root->data==n1 or root->data==n2) return root;
+       auto l=lca(root->left,n1,n2);
+       auto r=lca(root->right,n1,n2);
+       if(l and r) return root;
+       if(l) return l;
+       return r;
     }
-   
 };
 
 //{ Driver Code Starts.
