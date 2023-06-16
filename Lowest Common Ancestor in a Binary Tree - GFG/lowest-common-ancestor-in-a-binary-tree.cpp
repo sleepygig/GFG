@@ -46,7 +46,7 @@ class Solution
        auto r=lca(root->right,n1,n2);
        if(l and r) return root;
        if(l) return l;
-       return r;
+       if(r) return r;
     }
 };
 
