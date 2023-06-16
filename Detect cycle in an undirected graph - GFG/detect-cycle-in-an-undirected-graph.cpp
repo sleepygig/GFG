@@ -11,17 +11,17 @@ class Solution {
     vis[src]=1;
     for(auto c:adj[src])
     {
+      
         if(!vis[c])
         {
             if(dfs(adj,vis,c,src)) return true;
         }
-        else if(c!=parent and vis[c]==1) return true;
+        else if(c!=parent) return true;
     }
     return false;
 }
    bool isCycle(int V, vector<int> adj[]) {
         vector<bool>vis(V,0);
-        vector<bool>path(V,0);
         bool y=false;
         for(int i=0;i<V;i++)
         {
