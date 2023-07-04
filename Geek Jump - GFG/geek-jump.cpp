@@ -10,11 +10,13 @@ int mine(map<int,int>&dp,int n,vector<int>& height)
 {
     if(n<=0) return 0;
     if(dp[n]) return dp[n];
-    int l,r;
-       l=mine(dp,n-1,height) +abs(height[n-1]-height[n]);
-     if(n>1) {r=mine(dp,n-2,height)+abs(height[n-2]-height[n]);}
-    else {r=INT_MAX;}
-    return dp[n]=min(l,r);
+    int l=mine(dp,n-1,height);
+    int r=mine(dp,n-2,height);
+    int o1=INT16_MAX;
+    int o2=INT16_MAX;
+     o1=l+abs(height[n]-height[n-1]);
+     if(n>1)o2=r+abs(height[n]-height[n-2]);
+     return dp[n]=min(o1,o2);
 }
 
 int minimumEnergy(vector<int>& height, int n) {
