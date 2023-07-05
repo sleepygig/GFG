@@ -6,20 +6,26 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-int minimizeCost(vector<int>& height, int n, int k) {
-    vector<int> dp(n, INT_MAX); // DP table to store minimum costs
-    dp[0] = 0; // Base case: cost to reach the first stone is 0
-    
-    for (int i = 1; i < n; i++) {
-        for (int j = 1; j <= k; j++) {
-            if (i - j >= 0) {
-                dp[i] = min(dp[i], dp[i - j] + abs(height[i] - height[i - j]));
-            }
+int fs(vector<int>& height, int n, int k,vector<int>&dp)
+    {
+        if(n==0) return 0;
+        if(dp[n]!= -1) return dp[n];
+        int ans=INT32_MAX;
+        for(int i=1;i<=k;i++)
+        {
+                int jumpen=INT32_MAX;
+                if(n>=i)
+                {
+                jumpen=fs(height,n-i,k,dp)+abs(height[n]-height[n-i]);
+                ans=min(ans,jumpen);
+                }
         }
+        return dp[n]=ans;
     }
-    
-    return dp[n - 1]; // Minimum cost to reach the last stone
-}
+     int minimizeCost(vector<int>& height, int n, int k) {
+        vector<int>dp(n,-1);
+        return fs(height,n-1,k,dp);
+    }
 
 
 };
