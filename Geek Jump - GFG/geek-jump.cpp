@@ -6,23 +6,16 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-int mine(map<int,int>&dp,int n,vector<int>& height)
-{
-    if(n==0) return 0;
-    if(n<0) return INT16_MAX;
-    if(dp[n]) return dp[n];
-    int l=mine(dp,n-1,height);
-    int r=mine(dp,n-2,height);
-    return dp[n]=min(l+abs(height[n]-height[n-1]),r+abs(height[n]-height[n-2]));
-}
-
-int minimumEnergy(vector<int>& height, int n) {
-    map<int, int> dp;
-
-    
-    mine(dp, n, height);
-    return dp[n - 1];
-}
+  int minimumEnergy(vector<int>& height, int n) {
+        map<int,int >dp;
+       dp[0]=0;
+       dp[1]=abs(height[1]-height[0]);
+       for(int i=2;i<n;i++)
+       {
+        dp[i]=min(dp[i-1]+abs(height[i]-height[i-1]),dp[i-2]+abs(height[i]-height[i-2]));
+       }
+       return dp[n-1];
+    }
 
 };
 
