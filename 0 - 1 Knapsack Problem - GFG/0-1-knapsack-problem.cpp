@@ -8,24 +8,31 @@ class Solution
 {
     public:
     //Function to return max value that can be put in knapsack of capacity W.
- int kS(int W, int wt[], int val[], int n,vector<vector<int>>&dp) {
-     if (W == 0 || n == 0) return 0;
-        if(dp[n][W]!=-1) return dp[n][W];
-   int l, r;
-   if (W >= wt[n - 1]) {
-      l = val[n-1]+kS(W - wt[n - 1], wt, val, n - 1,dp);
-      r = kS(W, wt, val, n - 1,dp);
-   } else {
-      l = kS(W, wt, val, n - 1,dp);
-      r = INT16_MIN;
-   }
-   return dp[n][W] =max(l, r);
-}
-
-int knapSack(int W, int wt[], int val[], int n) {
-  vector<vector<int>> dp(n + 1, vector<int>(W + 1, -1));
-   return kS(W,wt,val,n,dp);
-
+ int knapSack(int W, int wt[], int val[], int n) {
+  vector<vector<int>> dp(n + 1, vector<int>(W + 1));
+  //dp[n+1][W+1]  contain ki n item tk with available weight max profir kitta hota 
+  for(int i=0;i<=n;i++)
+  {
+    for(int j=0;j<=W;j++)
+    {
+       if(i==0 or j==0) dp[i][j]=0;     
+    } 
+  }
+   for(int i=1;i<=n;i++)
+  {
+    for(int j=1;j<=W;j++)
+    {
+       if(j>=wt[i-1])
+       {
+        dp[i][j]=max(val[i-1]+dp[i-1][j-wt[i-1]],dp[i-1][j]);
+       }   
+       else 
+       {
+        dp[i][j]=dp[i-1][j];
+       }
+    } 
+  }
+  return dp[n][W];
 }
 };
 
