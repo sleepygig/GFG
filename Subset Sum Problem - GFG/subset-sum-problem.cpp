@@ -9,26 +9,32 @@ using namespace std;
 
 class Solution{   
 public:
-   bool fs(vector<vector<int >>&dp,int n,vector<int>&arr,int sum)
-{
-  if(sum==0) return true;
-  if(n==0) return false;
-  if(sum<0) return false;
-  if(dp[n][sum]!=-1) return dp[n][sum];
-  if(sum>=arr[n-1])
-  {
-    return dp[n][sum]=fs(dp,n-1,arr,sum-arr[n-1])|| fs(dp,n-1,arr,sum);
-  }
-  else 
-  {
-    return dp[n][sum]=fs(dp,n-1,arr,sum);
-  }
-}
- bool isSubsetSum(vector<int>arr, int sum){
+bool isSubsetSum(vector<int>arr, int sum){
   int n=arr.size();
        vector<vector<int >>dp(n+1,vector<int >(sum+1,-1));
-       return fs(dp,n,arr,sum);
-    //   print2d(dp,n,sum);
+       for(int i=0;i<=n;i++)
+       {
+          for(int j=0;j<=sum;j++)
+          {
+            if(i==0) dp[i][j]=0;
+            if(j==0) dp[i][j]=1;  
+          }
+       }
+         for(int i=1;i<=n;i++)    //i is n
+       {
+          for(int j=1;j<=sum;j++)   //j is sum 
+          {
+             if(j>=arr[i-1])
+             {
+              dp[i][j]=dp[i-1][j-arr[i-1]] || dp[i-1][j];
+             }
+             else 
+             {
+              dp[i][j]=dp[i-1][j];
+             }
+          }
+       }
+       return dp[n][sum];
 
 
     }
