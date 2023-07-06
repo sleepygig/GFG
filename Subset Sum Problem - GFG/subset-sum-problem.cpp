@@ -13,6 +13,7 @@ public:
 {
   if(sum==0) return true;
   if(n==0) return false;
+  if(sum<0) return false;
   if(dp[n][sum]!=-1) return dp[n][sum];
   if(sum>=arr[n-1])
   {
