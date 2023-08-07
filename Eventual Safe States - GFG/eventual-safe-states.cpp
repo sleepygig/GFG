@@ -10,41 +10,42 @@ using namespace std;
 
 class Solution {
   public:
-   vector<int> eventualSafeNodes(int V, vector<int> adj[]) {
-            int outde[V];
-            vector<int> adjrev[V];
-            memset(outde,0,sizeof(outde));
-             for(int i=0;i<V;i++)
-             {
-               for(auto c:adj[i])
-               {
-                    outde[i]++;
-                    adjrev[c].push_back(i);
-               }  
-             }
-             queue<int>q;
-             for(int i=0;i<V;i++)
-             {
-                    if(outde[i]==0)
-                    {
-                        q.push(i);
-                    }
-             }
-             vector<int>v;
-             while(q.size()>0)
-             {
-                int tp=q.front();
-                v.push_back(tp);
-                q.pop();
-                for(auto c:adjrev[tp])
-                {
-                    outde[c]--;
-                    if(outde[c]==0) q.push(c);
-                }
-             }
-             sort(v.begin(),v.end());
-            return v;
-         } 
+ bool dfs(vector<int>&path,vector<int>&vis,vector<int> adj[],int src)
+  {
+      path[src]=1;
+      vis[src]=1;
+      for(auto c:adj[src])
+      {
+          if(!vis[c])
+          {
+              if(dfs(path,vis,adj,c)) return true;
+          }
+          else if(path[c])
+          {
+              return true;
+          }
+      }
+      path[src]=0;
+      return false;
+  }
+    vector<int> eventualSafeNodes(int V, vector<int> adj[]) {
+        vector<int>path(V,0);
+        vector<int>vis(V,0);
+        for(int i=0;i<V;i++)
+        {
+            if(!vis[i]) dfs(path,vis,adj,i);
+        }
+        vector<int>ans;
+        for(int i=0;i<V;i++)
+        {
+            if(!path[i])
+            {
+                ans.push_back(i);
+            }
+        }
+        return ans;
+        
+    }
 };
 
 
