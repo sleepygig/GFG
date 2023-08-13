@@ -14,10 +14,10 @@ class Solution
         stack<pair<int, int>> st;
         vector<int> ans(n, 1);
         
-      for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
             while (!st.empty() && st.top().first <= price[i]) st.pop();
-            if (st.empty())  ans[i]=i+1;
-            else if(st.top().first>price[i])ans[i]=i-st.top().second;
+            if (!st.empty() and st.top().first>price[i]) ans[i] = i - st.top().second;
+            else if(st.size()==0) ans[i]=i+1;
             st.push({price[i], i});
         }
         
