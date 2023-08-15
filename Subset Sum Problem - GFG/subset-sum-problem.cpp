@@ -9,28 +9,40 @@ using namespace std;
 
 class Solution{   
 public:
-bool fs(vector<vector<int>>& dp, int sum, int n, vector<int>& arr) {
-    if (sum == 0) return 1;
-    if (n < 0 || sum < 0) return 0;
-    if (dp[n][sum]!=-1) return dp[n][sum];
-    
-    if (arr[n] <= sum) {
-        dp[n][sum] = fs(dp, sum - arr[n], n - 1, arr) || fs(dp, sum, n - 1, arr);
-    } else {
-        dp[n][sum] = fs(dp, sum, n - 1, arr);
+    bool isSubsetSum(vector<int>arr, int sum){
+    int n=arr.size();
+       vector<vector<int>>dp(n,vector<int>(sum+1,0));   //dp [i][j] j sum with i numbers ie i-1 th index tk
+        for(int j=0;j<n;j++)
+            {
+              dp[j][0]=1;    //sum==0 is always present empty set  
+            }
+            if(arr[0]<=sum) dp[0][arr[0]]=1;   //sirf ek term hai 
+            for(int i=1;i<n;i++)
+            {
+                for(int j=1;j<=sum;j++)
+                {
+                    if(arr[i]<=sum)
+                    {
+
+                        dp[i][j]=dp[i-1][j-arr[i]] || dp[i-1][j];
+                    }
+
+                    else 
+                    {
+                        dp[i][j]=dp[i-1][j];
+                    }    
+                }
+            }
+
+
+            return dp[n-1][sum];
+         
+       
+          
+       
+
+       
     }
-
-    return dp[n][sum];
-}
-
-bool isSubsetSum(vector<int>& arr, int sum) {
-    int n = arr.size();
-    vector<vector<int>> dp(n, vector<int>(sum + 1,-1));
-    fs(dp, sum, n - 1, arr);
-    // print2d(dp,n,sum+1);
-    return dp[n-1][sum];
-}
-
 };
 
 //{ Driver Code Starts.
