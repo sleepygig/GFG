@@ -10,48 +10,45 @@ using namespace std;
 
 class Solution {
   public:
-    int findTargetSumWays(vector<int>&A ,int target) {
-         #define lli long long
-        int sum=0;
-        int d=abs(target); 
-        int n=A.size();
-      for(lli i=0;i<n;i++)
+int fs(vector<vector<int>>&dp,int n,int sum,vector<int>&a)
+{
+    if(n==1)
     {
-        sum+=A[i];    
+        if(a[n-1]==0 and sum==0 ) return 2;
+        if(sum==0 or a[n-1]==sum) return 1;
+        return 0;
     }
-      if((d+sum)%2 != 0) return 0;
-      sum=(d+sum)/2;
-    vector<vector<lli>>dp(n+1,vector<lli> (sum+1,0));
-    for(lli i=0;i<=n;i++)
-    {
-       for(lli j=0;j<=sum;j++)
-       {
-           
-            if(i==0)
-            {
-                dp[i][j]=0;
-            }
-       }
-    }
-    dp[0][0]=1;
-        for(lli i=1;i<=n;i++)
-        {
-       for(lli j=0;j<=sum;j++)
-       {
-            if(A[i-1]<=j)
-            {
-                dp[i][j]=(dp[i-1][j-A[i-1]]+dp[i-1][j]);
-            }
-            else 
-            {
-                dp[i][j]=dp[i-1][j];
-            }
-       }
-    }
-    // print2d(dp,n,sum);
+        // if (n == 0) {
+        // return (sum == 0) ? 1 : 0;
+    // }
 
-   return dp[n][sum];       
-    
+    if(dp[n][sum]!=-1) return dp[n][sum];
+    int take,notake;
+    if(a[n-1]<=sum)
+    {
+        take=fs(dp,n-1,sum-a[n-1],a);
+        notake=fs(dp,n-1,sum,a);
+    }
+    else 
+    {
+         take=0;
+        notake=fs(dp,n-1,sum,a);
+    }
+    return dp[n][sum]=take+notake;
+}
+
+
+ int findTargetSumWays(vector<int>&A ,int target) {
+        int sum=accumulate(A.begin(),A.end(),0);
+        int n=A.size();
+        // deb(sum);
+          if((sum+target)%2==1) return 0;
+         int s2=(sum+target)/2;
+        vector<vector<int>>dp(n+1,vector<int>(s2+1,-1));
+         return fs(dp,n,s2,A);
+        //  print2d(dp,n+1,s2+1);
+        //  deb(dp[n][s2]);
+
     }
 };
 
